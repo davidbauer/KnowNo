@@ -1,0 +1,52 @@
+###MISE EN PLACE--------------------------------------------------------------------
+
+library(readr)
+library(dplyr)
+library(tidyr)
+
+rm(list = ls())
+
+#set username for file imports from and exports to OneDrive
+user <- "bauerd"
+#user <- "marie-jose"
+# set working directory
+setwd(paste0('/Users/', user ,'/NZZ-Mediengruppe/NZZ\ Storytelling\ -\ Dokumente/Vorlagen/Rapid-Response-Scripts/trump-approval'))
+
+# read in the data
+datafile<-read.csv("https://projects.fivethirtyeight.com/trump-approval-data/approval_topline.csv", header=T, sep=",") 
+
+#if fetching the file fails, try downloading it manually from here https://projects.fivethirtyeight.com/trump-approval-ratings/ 
+#and load it from the project folder
+#datafile<-read.csv(paste0(getwd(),"/data/approval_topline.csv"), header=T, sep=",")
+
+# get overview of data
+summary(datafile)
+str(datafile)
+head(datafile)
+tail(datafile)
+
+###COMPUTE--------------------------------------------------------------------------  
+
+allpolls <- filter(datafile, subgroup == "All polls") #get rid of subsets (all adults, all voters)
+
+allpolls_small <- allpolls[,c(3,4,7)] #drop columns we don't need (min+max estimates)
+
+colnames(allpolls_small) <- c("Datum","Zustimmung","Ablehnung")
+
+allpolls_small$Zustimmung <- round(allpolls_small$Zustimmung, digits = 1)
+allpolls_small$Ablehnung <- round(allpolls_small$Ablehnung, digits = 1)
+
+allpolls_small
+
+#save the file
+write.csv(allpolls_small, file = "data-output/allpolls.csv",row.names=FALSE)
+
+#copy data to clipboard
+clip <- pipe("pbcopy", "w")                       
+write.table(allpolls_small, sep="\t", quote = FALSE, row.names = FALSE, file=clip)                               
+close(clip)
+
+#open Q-graphic
+browseURL("https://q.st.nzz.ch/item/50ef0233a279c9ecabff769611ab3aa0")
+
+#it's the end of the code as we know it

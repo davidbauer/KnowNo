@@ -1,0 +1,13 @@
+Package: KnowNo
+Type: Package
+Title: A package that reminds you to say No most of the time
+Version: 0.1.0
+Author: David Bauer
+Maintainer: ¯\_(ツ)_/¯ (David says No to maintaining) <nonono@davidbauer.ch>
+Description: No description needed. Just make sure you have
+    knowNo() in all your scripts. Because who wants to start work
+    without a Disco-No-Reminder. (Damnit, now I wrote a description
+    anyway. Need to become better at saying No)
+License: MJIT (Marie-Jose Institute of Tatenjournalismus)
+Encoding: UTF-8
+LazyData: true
